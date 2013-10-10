@@ -1,5 +1,5 @@
 /*!
-	Zoom v1.7.8 - 2013-07-30
+	Zoom v1.7.8.2 - 2013-07-30
 	Forked to https://github.com/jpchip/zoom on 2013-10-10
 	Enlarge images on click or mouseover.
 	(c) 2013 Jack Moore - http://www.jacklmoore.com/zoom
