@@ -140,7 +140,7 @@
 								clicked = true;
 								start(e);
 								$(document).on(mousemove, zoom.move);
-								$(document).one('click.zoom',
+								$(source).one('click.zoom',
 									function () {
 										stop();
 										clicked = false;
