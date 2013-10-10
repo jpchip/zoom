@@ -55,8 +55,17 @@
 				offset = $(source).offset();
 			},
 			move: function (e) {
-				var left = (e.pageX - offset.left),
-					top = (e.pageY - offset.top);
+				var px = e.pageX;
+				var py = e.pageY;
+				if (e.type == 'touchmove') {
+					var touch = e.originalEvent.touches[0];
+					px = touch.pageX;
+					py = touch.pageY;
+					e.originalEvent.preventDefault();
+					e.preventDefault();
+				}
+				var left = (px - offset.left),
+					top = (py - offset.top);
 
 				top = Math.max(Math.min(top, outerHeight), 0);
 				left = Math.max(Math.min(left, outerWidth), 0);
@@ -143,7 +152,7 @@
 							} else {
 								clicked = true;
 								start(e);
-								$(document).on(mousemove, zoom.move);
+								$(source).on(mousemove, zoom.move);
 								$(source).one('click.zoom',
 									function () {
 										stop();
