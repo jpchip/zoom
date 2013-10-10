@@ -80,6 +80,10 @@
 			mousemove = 'mousemove.zoom',
 			clicked = false,
 			$urlElement;
+			
+			if ('ontouchstart' in window || !!(navigator.msMaxTouchPoints) || (window.DocumentTouch && document instanceof DocumentTouch)) {
+				mousemove = 'touchmove';
+			}
 
 			// If a url wasn't specified, look for an image element.
 			if (!settings.url) {
