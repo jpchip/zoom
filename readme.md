@@ -1,8 +1,16 @@
 ## About Zoom
 
 A small jQuery plugin for zooming images on mouseover or mousedown. See the [project page](http://jacklmoore.com/zoom/) for documentation and a demonstration.  Released under the [MIT license](http://www.opensource.org/licenses/mit-license.php).
- 
+
+For the touch events to work correctly in IE on windows 8, you MUST include the following in your document on some element above your target image:
+
+style="-ms-touch-action: none;"
+
+
 ## Changelog:
+
+### v1.7.8.3 - 2013/11/13
+* Fixed issue with touchmove in some browsers
 
 ### v1.7.8.2 - 2013/10/10
 * Added support for touch devices!!
