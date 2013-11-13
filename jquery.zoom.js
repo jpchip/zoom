@@ -56,6 +56,7 @@
 				offset = $(source).offset();
 			},
 			move: function (e) {
+				
 				var px = e.pageX;
 				var py = e.pageY;
 				if (e.type == 'touchmove') {
@@ -89,6 +90,7 @@
 			$img = $(img),
 			mousemove = 'mousemove.zoom',
 			clicked = false,
+			mouseDownYPosition = 0,
 			$urlElement;
 			
 			if ('ontouchstart' in window || !!(navigator.msMaxTouchPoints) || (window.DocumentTouch && document instanceof DocumentTouch)) {
@@ -156,20 +158,27 @@
 							} else {
 								clicked = true;
 								start(e);
-								//mousemove is either "mousemove" or "touchmove"!
-								//if mousemove is 'touchmove', listen for both events.
-								if (mousemove == 'touchmove') {
-									$(source).on(mousemove, zoom.move);
-									$(source).on('mousemove', zoom.move);
-								}
+
+								$(source).on('touchmove', zoom.move);
+								$(source).on('mousemove', zoom.move);
 								
+								//keep track of where user clicked/touched
+								$(source).on('mousedown', function(evt) {
+									mouseDownYPosition = evt.clientY;
+								});
 								
-								$(source).one('click.zoom',
+								$(source).on('click.reset',
 									function (evt) {
-										
-										stop();
-										clicked = false;
-										$(document).off(mousemove, zoom.move);
+										evt.preventDefault();
+										//if user lifts up the mouse/finger close to where they set it down, 
+										//then treat this as a click as zoom out
+										if(Math.abs(mouseDownYPosition - evt.clientY) < 10 || !$(evt.target).hasClass('zoomImg')) {
+											stop();
+											clicked = false;
+											$(document).off(mousemove, zoom.move);
+											$(source).off('mousedown');
+											$(source).off('click.reset');
+										}
 									}
 								);
 								return false;
