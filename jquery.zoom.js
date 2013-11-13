@@ -1,5 +1,5 @@
 /*!
-	Zoom v1.7.8.2
+	Zoom v1.7.8.3 - 2013-07-30
 	Forked to https://github.com/jpchip/zoom on 2013-10-10
 	Enlarge images on click or mouseover.
 	(c) 2013 Jack Moore - http://www.jacklmoore.com/zoom
@@ -122,6 +122,9 @@
 				function stop() {
 					$img.stop()
 					.fadeTo(settings.duration, 0, $.isFunction(settings.onZoomOut) ? settings.onZoomOut.call(img) : false);
+					//remove event listeners
+					$(source).off('mousemove');
+					$(source).off('touchmove');
 				}
 
 				if (settings.on === 'grab') {
@@ -153,9 +156,17 @@
 							} else {
 								clicked = true;
 								start(e);
-								$(source).on(mousemove, zoom.move);
+								//mousemove is either "mousemove" or "touchmove"!
+								//if mousemove is 'touchmove', listen for both events.
+								if (mousemove == 'touchmove') {
+									$(source).on(mousemove, zoom.move);
+									$(source).on('mousemove', zoom.move);
+								}
+								
+								
 								$(source).one('click.zoom',
-									function () {
+									function (evt) {
+										
 										stop();
 										clicked = false;
 										$(document).off(mousemove, zoom.move);
